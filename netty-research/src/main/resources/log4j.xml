@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{HH\:mm\:ss} %-5p %t - %c{1}.%M:%L - %m%n"/>
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMin" value="debug"/>
+			<param name="levelMax" value="FATAL"/>
+			<param name="AcceptOnMatch" value="true"/>
+		</filter>
+	</appender>
+	<appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/usr/hsj/logfile/chargeMgr/log"/>
+		<param name="DatePattern" value="'_'yyyy-MM-dd'.log'"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH\:mm\:ss} %-5p %t - %c{1}.%M:%L - %m%n"/>
+		</layout>
+		<!--<rollingPolicy name="file" class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+			<param name="FileNamePattern" value="/usr/hsj/logfile/chargeMgr/log.%d{yyyy-MM-dd}.gz"/>
+			<param name="ActiveFileName" value="/usr/hsj/logfile/chargeMgr/log"/>
+		</rollingPolicy>-->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMin" value="DEBUG"/>
+			<param name="levelMax" value="FATAL"/>
+			<param name="AcceptOnMatch" value="true"/>
+		</filter>
+	</appender>
+	<appender name="notifyAppender" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/usr/hsj/logfile/chargeMgr/notify" />
+		<param name="DatePattern" value="'_'yyyy-MM-dd"/>
+		<param name="Append" value="true" />
+		<!--<param name="MaxFileSize" value="50MB" />-->
+		<!--<param name="MaxBackupIndex" value="10" />-->
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-d{yyyy-MM-dd HH:mm:ss} %p %c{1}.%M:%L - %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMin" value="DEBUG" />
+			<param name="levelMax" value="FATAL" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+	<!-- 发送日志文件到邮件 -->
+	<appender name="MAIL" class="org.apache.log4j.net.SMTPAppender">
+		<param name="Threshold" value="ERROR"/>
+		<param name="BufferSize" value="1024"/>
+		<param name="From" value="wayto@sibat.cn"/>
+		<param name="SMTPHost" value="smtp.mxhichina.com"/>
+		<param name="SMTPUsername" value="wayto@sibat.cn"/>
+		<param name="SMTPPassword" value="Lindong12300"/>
+		<param name="Subject" value="异常告警[chargeMgr]"/>
+		<param name="To" value="79639445@qq.com,5766848@qq.com"/>
+		<!--<param name="bcc" value="lin.dong@sibat.cn"/>-->
+		<param name="Encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-d{yyyy-MM-dd HH:mm:ss} %p %c.%M:%L - %m%n" />
+		</layout>
+		<!-- 错误级别 -->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMax" value="ERROR" />
+			<param name="LevelMin" value="WARN" />
+		</filter>
+	</appender>
+	<!--
+		insert into log (project,className,method,line,logLevel,keyId,msg,createTime)
+	 -->
+	<!--<appender name="DATABASE" class="org.apache.log4j.jdbc.JDBCAppender">
+		<param name="URL" value="jdbc:mysql://192.168.0.226/log_bp?useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull" />
+		<param name="driver" value="com.mysql.jdbc.Driver" />
+		<param name="user" value="root_lottery" />
+		<param name="password" value="lottery_@#$%" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+			       value="insert into log (serverName,className,method,createTime,logLevel,msg) values ('tradeServer','%C','%M','%d{yyyy-MM-dd HH:mm:ss}','%p','%m')" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMin" value="ERROR" />
+			<param name="levelMax" value="FATAL" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>-->
+	<appender name="FILE_ERROR" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/usr/hsj/logfile/chargeMgr/error"/>
+		<param name="DatePattern" value="'_'yyyy-MM-dd'.log'"/>
+		<param name="Append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+			       value="%-d{yyyy-MM-dd HH:mm:ss} %p (%c:%L) - %m%n"/>
+		</layout>
+
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMin" value="ERROR"/>
+			<param name="levelMax" value="FATAL"/>
+			<param name="AcceptOnMatch" value="true"/>
+		</filter>
+	</appender>
+	<!--<appender name="catAppender" class="com.dianping.cat.log4j.CatAppender"></appender>-->
+	<appender name="STDOUT_SIMPLE" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{HH\:mm\:ss} %-5p %t - %c{1}.%M:%L - %m%n"/>
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMin" value="debug"/>
+			<param name="levelMax" value="FATAL"/>
+			<param name="AcceptOnMatch" value="true"/>
+		</filter>
+	</appender>
+	<!-- 显示加载了那些spring配置文件 -->
+	<category name="org.springframework.beans.factory.xml.XmlBeanDefinitionReader" additivity="false">
+		<priority value="DEBUG"/>
+		<appender-ref ref="STDOUT_SIMPLE"/>
+	</category>
+	<!-- 显示加载了那些spring mvc映射 -->
+	<category name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" additivity="false">
+		<priority value="INFO"/>
+		<appender-ref ref="STDOUT_SIMPLE"/>
+	</category>
+
+	<category name="org.apache.zookeeper" additivity="false">
+		<priority value="WARN"/>
+		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="FILE"/>
+		<appender-ref ref="FILE_ERROR"/>
+	</category>
+	<category name="com.alibaba.dubbo" additivity="false">
+		<priority value="WARN"/>
+		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="FILE"/>
+		<appender-ref ref="FILE_ERROR"/>
+
+	</category>
+	<category name="com.cnlot" additivity="false">
+		<priority value="DEBUG"/>
+		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="FILE"/>
+		<appender-ref ref="FILE_ERROR"/>
+
+	</category>
+	<category name="com.zky" additivity="false">
+		<priority value="DEBUG"/>
+		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="FILE"/>
+		<appender-ref ref="FILE_ERROR"/>
+
+	</category>
+	<!-- sql -->
+	<category name="com.zky.dsp.charge.dao" additivity="false">
+		<priority value="WARN"/>
+		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="FILE"/>
+		<appender-ref ref="FILE_ERROR"/>
+
+	</category>
+	<category name="cn.wayto" additivity="false">
+		<priority value="INFO"/>
+		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="FILE"/>
+		<appender-ref ref="FILE_ERROR"/>
+
+	</category>
+	<category name="yuan" additivity="false">
+		<priority value="DEBUG"/>
+		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="FILE"/>
+		<appender-ref ref="FILE_ERROR"/>
+
+	</category>
+	<logger name="notify" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="notifyAppender" />
+	</logger>
+	<!--<category name="net.sf.ehcache" additivity="false">
+		<priority value="WARN" />
+		<appender-ref ref="ALL_STDOUT" />
+	</category>
+	<category name="org.mybatis.caches" additivity="false">
+		<priority value="WARN" />
+		<appender-ref ref="ALL_STDOUT" />
+	</category>
+	<category name="org.apache.ibatis.cache" additivity="false">
+		<priority value="debug" />
+		<appender-ref ref="ALL_STDOUT" />
+	</category>-->
+
+	<category name="org.springframework" additivity="false">
+		<priority value="WARN"/>
+		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="FILE"/>
+	</category>
+	<category name="org.codehaus.plexus" additivity="false"><level value="DEBUG"/><appender-ref ref="STDOUT"/></category>
+	<root>
+		<priority value="WARN"/>
+		<appender-ref ref="STDOUT"/>
+	</root>
+
+</log4j:configuration>
