@@ -15,21 +15,6 @@
  */
 package io.netty.channel.nio;
 
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelException;
-import io.netty.channel.EventLoop;
-import io.netty.channel.EventLoopException;
-import io.netty.channel.SelectStrategy;
-import io.netty.channel.SingleThreadEventLoop;
-import io.netty.channel.nio.AbstractNioChannel.NioUnsafe;
-import io.netty.util.IntSupplier;
-import io.netty.util.concurrent.RejectedExecutionHandler;
-import io.netty.util.internal.PlatformDependent;
-import io.netty.util.internal.ReflectionUtil;
-import io.netty.util.internal.SystemPropertyUtil;
-import io.netty.util.internal.logging.InternalLogger;
-import io.netty.util.internal.logging.InternalLoggerFactory;
-
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.channels.CancelledKeyException;
@@ -44,10 +29,25 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelException;
+import io.netty.channel.EventLoop;
+import io.netty.channel.EventLoopException;
+import io.netty.channel.SelectStrategy;
+import io.netty.channel.SingleThreadEventLoop;
+import io.netty.channel.nio.AbstractNioChannel.NioUnsafe;
+import io.netty.util.IntSupplier;
+import io.netty.util.concurrent.RejectedExecutionHandler;
+import io.netty.util.internal.PlatformDependent;
+import io.netty.util.internal.ReflectionUtil;
+import io.netty.util.internal.SystemPropertyUtil;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 /**
  * {@link SingleThreadEventLoop} implementation which register the {@link Channel}'s to a
@@ -624,7 +624,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
             // Also check for readOps of 0 to workaround possible JDK bug which may otherwise lead
             // to a spin loop
             if ((readyOps & (SelectionKey.OP_READ | SelectionKey.OP_ACCEPT)) != 0 || readyOps == 0) {//可读事件和accept
-                logger.info("OP_READ|OP_ACCEPT={}:{}|{}",readyOps,k.isReadable(),k.isAcceptable());
+                //logger.info("OP_READ|OP_ACCEPT={}:{}|{}",readyOps,k.isReadable(),k.isAcceptable());
                 unsafe.read();
             }
         } catch (CancelledKeyException ignored) {
